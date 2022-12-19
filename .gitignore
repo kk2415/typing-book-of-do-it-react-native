@@ -173,7 +173,7 @@ xcuserdata/
 ### ReactNative.Gradle Stack ###
 .gradle
 **/build/
-!src/**/build/
+!ch03/ch03_3/src/**/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
