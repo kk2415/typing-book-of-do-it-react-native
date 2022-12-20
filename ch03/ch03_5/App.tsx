@@ -1,22 +1,11 @@
-import React, {type PropsWithChildren} from 'react';
+import React from 'react';
 import {
   FlatList,
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
   View,
 } from "react-native";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import * as D from './src/data'
 import { MD2Colors } from "react-native-paper";
 import Person from "./src/copy/Person";
