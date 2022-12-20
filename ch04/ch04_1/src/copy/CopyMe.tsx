@@ -13,7 +13,7 @@ const CopyMe = () => {
 };
 
 const styles = StyleSheet.create({
-  view: {padding: 5, backgroundColor: MD2Colors.blue900},
+  view: {flex: 1, padding: 5, backgroundColor: MD2Colors.blue900},
   text: {fontSize: 20, color: 'white'},
 });
 
