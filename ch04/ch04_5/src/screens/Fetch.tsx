@@ -2,17 +2,21 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {MD2Colors} from 'react-native-paper';
 import * as D from '../data'
+import { useAsyncEffect } from '../hooks/useAsyncEffect';
 import Country from "./Country";
 
 const title = 'Fetch';
 
 const Fetch = () => {
     const [countries, setCountries] = useState<D.ICountry[]>([])
-    const [error, setError] = useState<Error | null>(null)
+    const [error, resetError] = useAsyncEffect(async () => {
+      setCountries([])
+      resetError()
 
-    useEffect(() => {
-        D.getCountries().then(setCountries).catch(setError)
-    }, [])
+      // await Promise.reject(new Error('some error occurs'))
+      const countries = await D.getCountries()
+      setCountries(countries)
+    })
 
     return (
       <View style={[styles.view]}>
@@ -21,6 +25,7 @@ const Fetch = () => {
         <FlatList data={countries}
                   renderItem={({item}) => <Country country={item} />}
                   keyExtractor={(item, index) => index.toString()}
+                  showsVerticalScrollIndicator={false}
                   ItemSeparatorComponent={() => <View style={styles.separator} /> } />
       </View>
     );
