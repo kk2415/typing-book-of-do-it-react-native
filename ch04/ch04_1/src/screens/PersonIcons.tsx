@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from "react";
+import React, { Dispatch, FC, SetStateAction, useCallback } from "react";
 import { Alert, Image, Text, View } from "react-native";
 import * as D from '../data'
 import moment from 'moment-with-locales-es6'
@@ -10,50 +10,65 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 moment.locale('ko')
 
-export type PersonProps = {
+export type PersonIconProps = {
   person: D.IPerson
+  setPerson: Dispatch<SetStateAction<D.IPerson>>
 }
 
-const Person: FC<PersonProps> = ({person}) => {
+const PersonIcons: FC<PersonIconProps> = ({person, setPerson}) => {
 
-  const avatarPressed = useCallback(() => Alert.alert('avatar pressed'), [])
-  const deletePressed = useCallback(() => Alert.alert('delete pressed'), [])
-  const countIconPressed = useCallback((name: string) => () => Alert.alert(`${name} pressed`), [])
+  const commentPressed = useCallback(() =>
+    setPerson((person) => {
+        const {comment} = person.counts
+        return {
+          ...person,
+          counts: {
+            ...person.counts,
+            comment: comment + 1,
+          }
+        }
+      }), [])
+
+  const retweetPressed = useCallback(() =>
+      setPerson((person) => {
+        const {retweet} = person.counts
+        return {
+          ...person,
+          counts: {
+            ...person.counts,
+            retweet: retweet + 1
+          },
+        }
+      }), [])
+
+  const heartPressed = useCallback(() =>
+      setPerson((person) => {
+        const {heart} = person.counts
+        return {
+          ...person,
+          counts: {
+            ...person.counts,
+            heart: heart + 1
+          },
+        }
+      }), [])
 
   return (
-    <View style={[styles.view]}>
-      <View style={[styles.leftView]}>
-        <Avatar imageStyle={[styles.avatar]} uri={person.avatar} size={50} onPress={avatarPressed} />
+      <View style={[styles.countsView]}>
+        <IconText viewStyle={[styles.touchableIcon]}
+                  onPress={commentPressed}
+                  name="comment" size={24} color={MD2Colors.blue500}
+                  textStyle={[styles.iconText]} text={person.counts.comment} />
+        <IconText viewStyle={[styles.touchableIcon]}
+                  onPress={retweetPressed}
+                  name="comment" size={24} color={MD2Colors.purple500}
+                  textStyle={[styles.iconText]} text={person.counts.retweet} />
+        <IconText viewStyle={[styles.touchableIcon]}
+                  onPress={heartPressed}
+                  name="heart" size={24} color={MD2Colors.red500}
+                  textStyle={[styles.iconText]} text={person.counts.heart} />
       </View>
-
-      <View style={[styles.rightView]}>
-        <Text style={[styles.name]}>{person.name}</Text>
-        <Text style={[styles.email]}>{person.email}</Text>
-        <View style={[styles.dateView]}>
-          <Text style={[styles.text]}>
-            {moment(person.createdDate).startOf('day').fromNow()}
-          </Text>
-          <Icon name='trash-can-outline' size={26} color={MD2Colors.lightBlue500} onPress={deletePressed}></Icon>
-        </View>
-        <Text numberOfLines={3} ellipsizeMode="tail" style={[styles.text, styles.comments]}>{person.comments}</Text>
-        <Image style={[styles.image]} source={{uri: person.image}}></Image>
-        <View style={[styles.countsView]}>
-          <IconText viewStyle={[styles.touchableIcon]}
-                    onPress={countIconPressed('comment')}
-                    name="comment" size={24} color={MD2Colors.blue500}
-                    textStyle={[styles.iconText]} text={person.counts.comment} />
-          <IconText viewStyle={[styles.touchableIcon]}
-                    onPress={countIconPressed('retweet')}
-                    name="comment" size={24} color={MD2Colors.purple500}
-                    textStyle={[styles.iconText]} text={person.counts.retweet} />
-          <IconText viewStyle={[styles.touchableIcon]}
-                    onPress={countIconPressed('heart')}
-                    name="heart" size={24} color={MD2Colors.red500}
-                    textStyle={[styles.iconText]} text={person.counts.heart} />
-        </View>
-      </View>
-    </View>
   );
 }
 
-export default Person
+export default PersonIcons

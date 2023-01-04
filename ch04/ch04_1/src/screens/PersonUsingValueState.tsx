@@ -15,11 +15,10 @@ export type PersonProps = {
   person: D.IPerson
 }
 
-const Person: FC<PersonProps> = ({person: initialPerson}) => {
+const PersonUsingValueState: FC<PersonProps> = ({person: initialPerson}) => {
 
   const avatarPressed = useCallback(() => Alert.alert('avatar pressed'), [])
   const deletePressed = useCallback(() => Alert.alert('delete pressed'), [])
-  const countIconPressed = useCallback((name: string) => () => Alert.alert(`${name} pressed`), [])
 
   const [person, setPerson] = useState<IPerson>({
     ...initialPerson,
@@ -29,39 +28,12 @@ const Person: FC<PersonProps> = ({person: initialPerson}) => {
   const [retweet, setRetweet] = useState<number>(0)
   const [heart, setHeart] = useState<number>(0)
 
-  const commentPressed = useCallback(() => setPerson((person) =>
-    (
-      {
-        ...person,
-        counts: {
-        ...person.counts,
-          comment: person.counts.comment + 1
-        },
-      }
-    )
-  ), [])
-  const retweetPressed = useCallback(() => setPerson((person) =>
-    (
-      {
-        ...person,
-        counts: {
-          ...person.counts,
-          retweet: person.counts.retweet + 1
-        },
-      }
-    )
-  ), [])
-  const heartPressed = useCallback(() => setPerson((person) =>
-    (
-      {
-        ...person,
-        counts: {
-          ...person.counts,
-          heart: person.counts.heart + 1
-        },
-      }
-    )
-  ), [])
+  const commentPressed = useCallback(() => setComment((comment) => comment + 1),
+    [])
+  const retweetPressed = useCallback(() => setRetweet((retweet) => retweet + 1),
+    [])
+  const heartPressed = useCallback(() => setHeart((heart) => heart + 1),
+    [])
 
   return (
     <View style={[styles.view]}>
@@ -84,19 +56,19 @@ const Person: FC<PersonProps> = ({person: initialPerson}) => {
           <IconText viewStyle={[styles.touchableIcon]}
                     onPress={commentPressed}
                     name="comment" size={24} color={MD2Colors.blue500}
-                    textStyle={[styles.iconText]} text={person.counts.comment} />
+                    textStyle={[styles.iconText]} text={comment} />
           <IconText viewStyle={[styles.touchableIcon]}
                     onPress={retweetPressed}
                     name="comment" size={24} color={MD2Colors.purple500}
-                    textStyle={[styles.iconText]} text={person.counts.retweet} />
+                    textStyle={[styles.iconText]} text={retweet} />
           <IconText viewStyle={[styles.touchableIcon]}
                     onPress={heartPressed}
                     name="heart" size={24} color={MD2Colors.red500}
-                    textStyle={[styles.iconText]} text={person.counts.heart} />
+                    textStyle={[styles.iconText]} text={heart} />
         </View>
       </View>
     </View>
   );
 }
 
-export default Person
+export default PersonUsingValueState

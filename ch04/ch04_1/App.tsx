@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState } from "react";
 import {
   Dimensions, FlatList,
   SafeAreaView, ScrollView,
@@ -6,14 +6,12 @@ import {
   Text, View,
 } from "react-native";
 import { useClock } from "./src/hooks/useClock";
-import Cache from "./src/screens/Cache";
-import Memo from "./src/screens/Memo";
-import Fibo from "./src/screens/Fibo";
 import PersonUsingValueState from "./src/screens/PersonUsingValueState";
 import PersonUsingObjectState from "./src/screens/PersonUsingObjectState";
 import PersonUsingPassingState from "./src/screens/PersonUsingPassingState";
 import * as D from './src/data'
 import { MD2Colors } from "react-native-paper";
+import TopBar from "./src/screens/TopBar";
 
 const {width} = Dimensions.get('window')
 
@@ -31,7 +29,7 @@ const numberOfComponents = personInformations.length
 
 const App = () => {
   const time = useClock()
-  const people = useMemo(() => D.makeArray(10).map(D.createRandomPerson), [])
+  const [people, setPeople] = useState<D.IPerson[]>([])
   let children = useMemo(() =>
     personInformations.map(({title, Component}: PersonInformation) => (
       <View style={{flex: 1}} key={title}>
@@ -41,19 +39,11 @@ const App = () => {
                   keyExtractor={(item, index) => item.id}
                   ItemSeparatorComponent={() => <View style={styles.itemSeparator} />} />
       </View>)),
-    []);
+    [people.length]);
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <Text style={[styles.digitFont, styles.time]}>
-        {time.toLocaleTimeString()}
-      </Text>
-      <Text style={styles.digitFont}>{time.toLocaleDateString()}</Text>
-      {/*<ScrollView horizontal contentContainerStyle={[styles.contentContainerStyle]} >*/}
-      {/*  <Cache />*/}
-      {/*  <Memo />*/}
-      {/*  <Fibo />*/}
-      {/*</ScrollView>*/}
+    <SafeAreaView style={styles.flex}>
+      <TopBar setPeople={setPeople} />
       <ScrollView horizontal contentContainerStyle={[styles.contentContainerStyle]} >
         {children}
       </ScrollView>
