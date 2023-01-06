@@ -17,7 +17,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import MainNavigator from './src/screens/MainNavigator'
+import MainNavigator from './src/screens/MainNavigator';
 
 const App = () => {
   return (

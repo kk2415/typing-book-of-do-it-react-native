@@ -12,7 +12,7 @@ const Fetch = () => {
     const [error, resetError] = useAsyncEffect(async () => {
       setCountries([])
       resetError()
-
+      
       // await Promise.reject(new Error('some error occurs'))
       const countries = await D.getCountries()
       setCountries(countries)
