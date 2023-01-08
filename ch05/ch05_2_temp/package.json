@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "faker": "^5.5.3",
+    "moment": "^2.29.4",
+    "moment-with-locales-es6": "^1.0.1",
+    "react-native-paper": "^5.1.2",
+    "react-native-vector-icons": "^9.2.0"
+  },
+  "devDependencies": {
+    "@types/faker": "^5.5.3",
+    "@types/react-native-vector-icons": "^6.4.12"
+  }
+}
