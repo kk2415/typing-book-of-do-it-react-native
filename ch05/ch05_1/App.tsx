@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -10,6 +11,11 @@
 
 import React, {type PropsWithChildren} from 'react';
 import {
+=======
+import React, {useCallback, useState, type PropsWithChildren} from 'react';
+import {
+  Appearance,
+>>>>>>> 2a9154dad4f49ad705fa5fab7d47b6f6aa5af9b9
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -18,6 +24,10 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+<<<<<<< HEAD
+=======
+import { DefaultTheme, MD3DarkTheme } from 'react-native-paper';
+>>>>>>> 2a9154dad4f49ad705fa5fab7d47b6f6aa5af9b9
 
 import {
   Colors,
@@ -26,6 +36,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+<<<<<<< HEAD
 
 import {Provider as PaperProvider} from 'react-native-paper'
 import { DefaultTheme, MD3DarkTheme } from 'react-native-paper';
@@ -50,10 +61,31 @@ const App = () => {
         </SafeAreaView>
       </ToggleThemeProvider>
     </PaperProvider>
+=======
+import MainNavigator from './src/screens/MainNavigator';
+
+import {Provider as PaperProvider} from 'react-native-paper'
+import { ToggleThemeProvider } from './src/contexts';
+
+const App = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const [theme, setTheme] = useState(isDarkMode ? MD3DarkTheme : DefaultTheme)
+  const toggleTheme = useCallback(() => setTheme((theme) => (theme.dark ? DefaultTheme : MD3DarkTheme)), [])
+
+  return (
+    <SafeAreaView>
+      <PaperProvider theme={theme}>
+        <ToggleThemeProvider toggleTheme={toggleTheme}>
+          <MainNavigator />
+        </ToggleThemeProvider>
+      </PaperProvider>
+    </SafeAreaView>
+>>>>>>> 2a9154dad4f49ad705fa5fab7d47b6f6aa5af9b9
   );
 };
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
@@ -70,6 +102,9 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+=======
+
+>>>>>>> 2a9154dad4f49ad705fa5fab7d47b6f6aa5af9b9
 });
 
 export default App;
