@@ -6,7 +6,7 @@ export type TextProps = ComponentProps<typeof RNText>
 
 export const Text: FC<TextProps> = ({style, ...props}) => {
     const {colors} = useTheme()
-    return <RNText style={[{color: colors.text}, style]} />
+    return <RNText style={[{color: colors.text}, style]} {...props} />
 }
 
 export const UnderlineText: FC<TextProps> = ({style, ...props}) => {

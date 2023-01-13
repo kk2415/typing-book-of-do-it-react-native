@@ -1,35 +1,64 @@
 import { DarkTheme, DefaultTheme, useTheme } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { SafeAreaView, StyleSheet, View, Switch, useColorScheme } from 'react-native'
-import { useToggleTheme } from '../contexts'
-import { Text } from '../theme/paper/Text'
+import { Alert, Keyboard, Platform, StyleSheet } from 'react-native'
+import { AutoFocusProvider, useAutoFocus, useToggleTheme } from '../contexts'
+import { SafeAreaView, Switch, TextInput, TopBar, TouchableView, UnderlineText, View, MaterialCommunityIcons as Icon, Text } from '../theme/navigation'
+import * as D from '../data'
 
 export default function MainNavigator() {
-    const theme = useTheme()
-    const toggleTheme = useToggleTheme()
+    const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson())
+    const focus = useAutoFocus()
 
-    return (
-        <SafeAreaView style={[styles.flex]}>
-            <View style={[styles.view, {backgroundColor: theme.colors.background}]}>
-                <View style={[styles.topBar, {backgroundColor: theme.colors.primary}]}>
-                    <Switch value={theme.dark} onValueChange={toggleTheme} />
-                </View>
-                <View style={[styles.view]}>
-                    <Text style={[styles.text, {color: theme.colors.text}]}>
-                        This is top text.
-                    </Text>
-                    <Text style={[styles.view, {color: theme.colors.text}]}>
-                        This is bottom text.
-                    </Text>
-                </View>
+    return (        
+        <SafeAreaView>
+            <View style={[styles.view]}>
+                <TopBar>
+                    <UnderlineText onPress={Keyboard.dismiss} style={[styles.text]}>
+                        dismiss keyboard
+                    </UnderlineText>
+                </TopBar>
+                <AutoFocusProvider contentContainerStyle={[styles.keyboardAwareFocus]}>
+                    <View style={[styles.textView]}>
+                        <Text style={[styles.text]}>email</Text>
+                        <View border style={[styles.textInputView]}>
+                            <TextInput
+                                onFocus={focus} 
+                                style={[styles.textInput]}
+                                value={person.email}
+                                onChangeText={(email) => setPerson((person) => ({...person, email}))}
+                                placeholder="enter your email"
+                            />
+                        </View>
+                    </View>
+                    <View style={[styles.textView]}>
+                        <Text style={[styles.text]}>name</Text>
+                        <View border style={[styles.textInputView]}>
+                            <TextInput
+                                onFocus={focus} 
+                                style={[styles.textInput]}
+                                value={person.name}
+                                onChangeText={(name) => setPerson((person) => ({...person, name}))}
+                                placeholder="enter your name"
+                            />
+                        </View>
+                    </View>
+                    <TouchableView notification style={[styles.touchableView]} onPress={() => Alert.alert('submit')}>
+                        <Text style={[styles.text, {marginRight: 5}]}>Login</Text>
+                        <Icon name="login" size={24} />
+                    </TouchableView>
+                </AutoFocusProvider>
+                <View style={[{marginBottom: Platform.select({ios: 50})}]} />
             </View>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    flex: {flex: 1},
-    view: {flex: 1, alignItems: 'center', justifyContent: 'space-between'},
-    topBar: {width: '100%', flexDirection: 'row', padding: 5, justifyContent: 'flex-end'},
-    text: {fontSize: 20}
+    view: {flex: 1, justifyContent: 'space-between'},
+    text: {fontSize: 20},
+    keyboardAwareFocus: {flex: 1, padding: 5, alignItems: 'center', justifyContent: 'center'},
+    textView: {width: '100%', padding: 5, marginBottom: 10},
+    textInput: {fontSize: 24, padding: 10},
+    textInputView: {marginTop: 5, borderRadius: 10},
+    touchableView: {flexDirection: 'row', height: 50, borderRadius: 10, width: '90%', justifyContent: 'center', alignItems: 'center'},
 })

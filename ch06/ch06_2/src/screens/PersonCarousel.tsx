@@ -29,10 +29,8 @@ const PersonCarousel: FC<PersonProps> = ({person, deletePressed}) => {
   return (
     <View style={[styles.view]}>
       <View style={[styles.leftView]}>
-        <Avatar imageStyle={[styles.avatar]} uri={person.avatar} size={50} onPress={avatarPressed} />
-        <Text style={[styles.text]}>Press Me</Text>
+        <Avatar imageStyle={[styles.avatar]} uri={person.avatar} size={50} />
       </View>
-
       <View style={[styles.rightView]} onLayout={setLayout}>
         <Text style={[styles.name]}>{person.name}</Text>
         <Text style={[styles.email]}>{person.email}</Text>

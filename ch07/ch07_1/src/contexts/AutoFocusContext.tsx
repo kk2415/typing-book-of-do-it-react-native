@@ -38,6 +38,6 @@ export const AutoFocusProvider: FC<AutoFocusProviderProps> = ({children, ...prop
 }
 
 export const useAutoFocus = () => {
-	const autoFocus = useContext(AutoFocusContext)
+	const {autoFocus} = useContext(AutoFocusContext)
 	return autoFocus
 }
