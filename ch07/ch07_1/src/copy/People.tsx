@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Keyboard, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useToggleTheme } from '../contexts';
+import { ScrollEnabledProvider, useScrollEnabled } from '../contexts/ScrollEnabledContext';
 
 import * as D from '../data'
 import { SafeAreaView, TopBar, UnderlineText, View } from '../theme/navigation';
@@ -14,7 +15,9 @@ export default function People() {
 	const theme = useTheme()
 	const toggleTheme = useToggleTheme()
 	
-	const addPerson = useCallback(() => setPeople((people) => [D.createRandomPerson(), ...people]), [])
+	const addPerson = useCallback(() => {
+		setPeople((people) => [D.createRandomPerson(), ...people])
+	}, [])
 	const removeAllPersons = useCallback(() => {
 		setPeople((notUsed) => [])
 	}, [])
@@ -29,24 +32,26 @@ export default function People() {
 
 	return (
 		<SafeAreaView>
-			<View style={[styles.view]}>
-				<TopBar>
-                    <UnderlineText onPress={addPerson} style={[styles.text]}>
-                        add
-                    </UnderlineText>
-                    <UnderlineText onPress={removeAllPersons} style={[styles.text]}>
-                        remove all
-                    </UnderlineText>
-                </TopBar>
-				<FlatList
-					scrollEnabled={scrollEnabled}
-					data={people}
-					renderItem={({item}) => (
-						<Person person={item} deletePressed={() => deletePerson(item.id)} />
-					)}
-					keyExtractor={(item) => item.id}
-				/>
-			</View>
+			<ScrollEnabledProvider>
+				<View style={[styles.view]}>
+					<TopBar>
+						<UnderlineText onPress={addPerson} style={[styles.text]}>
+							add
+						</UnderlineText>
+						<UnderlineText onPress={removeAllPersons} style={[styles.text]}>
+							remove all
+						</UnderlineText>
+					</TopBar>
+					<FlatList
+						scrollEnabled={scrollEnabled}
+						data={people}
+						renderItem={({item}) => (
+							<Person person={item} deletePressed={() => deletePerson(item.id)} />
+						)}
+						keyExtractor={(item) => item.id}
+					/>
+				</View>
+			</ScrollEnabledProvider>
 		</SafeAreaView>
 	)
 }

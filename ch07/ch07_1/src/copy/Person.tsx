@@ -7,6 +7,7 @@ import { MD2Colors } from "react-native-paper";
 import {styles} from "./Person.style";
 import { Avatar, IconText } from "../component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { TouchableView, UnderlineText } from '../theme/navigation';
 
 moment.locale('ko')
 
@@ -15,34 +16,41 @@ export type PersonProps = {
   deletePressed: () => void
 }
 
-const avatarPressed = () => Alert.alert('avatar pressed')
-const deletePressed = () => Alert.alert('avatar pressed')
-const countIconPressed = (name: string) => () => Alert.alert('${name} pressed')
+const Person: FC<PersonProps> = ({person: initialPerson, deletePressed}) => {
+  const [person, setPerson] = useState<D.IPerson>(initialPerson)
 
-const Person: FC<PersonProps> = ({person, deletePressed}) => {
   return (
     <View style={[styles.view]}>
       <View style={[styles.leftView]}>
-        <Avatar imageStyle={[styles.avatar]} uri={person.avatar} size={50} onPress={avatarPressed} />
-        <Text style={[styles.text]}>Press Me</Text>
+        <Avatar imageStyle={[styles.avatar]} uri={person.avatar} size={50} />
       </View>
 
       <View style={[styles.rightView]}>
         <Text style={[styles.name]}>{person.name}</Text>
-        <Text style={[styles.email]}>{person.email}</Text>
+        <UnderlineText style={[styles.email]}>{person.email}</UnderlineText>
         <View style={[styles.dateView]}>
           <Text style={[styles.text]}>
             {moment(person.createdDate).startOf('day').fromNow()}
           </Text>
-          <Icon name='trash-can-outline' size={26} color={MD2Colors.lightBlue500} onPress={deletePressed}></Icon>
+          <Icon name='trash-can' size={30} color={MD2Colors.lightBlue500} onPress={deletePressed} />
         </View>
-        <Text numberOfLines={3} ellipsizeMode="tail" style={[styles.text, 
-          styles.comments]}>{person.comments}</Text>
-        <Image style={[styles.image]} source={{uri: person.image}}></Image>
+        <Text numberOfLines={3} ellipsizeMode="tail" style={[styles.text, styles.comments]}>
+          {person.comments}
+        </Text>
+        <Image style={[styles.image]} source={{uri: person.image}} />
         <View style={[styles.countsView]}>
-          <Icon name="comment" size={24} color={MD2Colors.blue500} />
-          <Icon name="comment" size={24} color={MD2Colors.purple500} />
-          <Icon name="heart" size={24} color={MD2Colors.red500} />
+          <TouchableView style={[styles.countsView]}>
+            <Icon name="comment" size={24} color={MD2Colors.blue500} />
+            <Text>{person.counts.comment}</Text>
+          </TouchableView>
+          <TouchableView style={[styles.countsView]}>
+            <Icon name="comment" size={24} color={MD2Colors.purple500} />
+            <Text>{person.counts.retweet}</Text>
+          </TouchableView>
+          <TouchableView style={[styles.countsView]}>
+            <Icon name="heart" size={24} color={MD2Colors.red500} />
+            <Text>{person.counts.heart}</Text>
+          </TouchableView>
         </View>
       </View>
     </View>
