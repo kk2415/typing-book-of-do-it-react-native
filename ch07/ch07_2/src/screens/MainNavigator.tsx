@@ -1,55 +1,19 @@
-import { DarkTheme, DefaultTheme, useTheme } from '@react-navigation/native'
-import React, { useCallback, useState } from 'react'
-import { Alert, Keyboard, Platform, StyleSheet } from 'react-native'
-import { AutoFocusProvider, useAutoFocus, useToggleTheme } from '../contexts'
-import { SafeAreaView, Switch, TextInput, TopBar, TouchableView, UnderlineText, View, MaterialCommunityIcons as Icon, Text } from '../theme/navigation'
-import * as D from '../data'
+import React from 'react'
+import { StyleSheet } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
+import Home from './Home'
+import HomeLeft from './HomeLeft'
+import HomeRight from './HomeRight'
+
+const Stack = createStackNavigator()
 
 export default function MainNavigator() {
-    const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson())
-    const focus = useAutoFocus()
-
     return (        
-        <SafeAreaView>
-            <View style={[styles.view]}>
-                <TopBar>
-                    <UnderlineText onPress={Keyboard.dismiss} style={[styles.text]}>
-                        dismiss keyboard
-                    </UnderlineText>
-                </TopBar>
-                <AutoFocusProvider contentContainerStyle={[styles.keyboardAwareFocus]}>
-                    <View style={[styles.textView]}>
-                        <Text style={[styles.text]}>email</Text>
-                        <View border style={[styles.textInputView]}>
-                            <TextInput
-                                onFocus={focus} 
-                                style={[styles.textInput]}
-                                value={person.email}
-                                onChangeText={(email) => setPerson((person) => ({...person, email}))}
-                                placeholder="enter your email"
-                            />
-                        </View>
-                    </View>
-                    <View style={[styles.textView]}>
-                        <Text style={[styles.text]}>name</Text>
-                        <View border style={[styles.textInputView]}>
-                            <TextInput
-                                onFocus={focus} 
-                                style={[styles.textInput]}
-                                value={person.name}
-                                onChangeText={(name) => setPerson((person) => ({...person, name}))}
-                                placeholder="enter your name"
-                            />
-                        </View>
-                    </View>
-                    <TouchableView notification style={[styles.touchableView]} onPress={() => Alert.alert('submit')}>
-                        <Text style={[styles.text, {marginRight: 5}]}>Login</Text>
-                        <Icon name="login" size={24} />
-                    </TouchableView>
-                </AutoFocusProvider>
-                <View style={[{marginBottom: Platform.select({ios: 50})}]} />
-            </View>
-        </SafeAreaView>
+        <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="HomeLeft" component={HomeLeft} />
+            <Stack.Screen name="HomeRight" component={HomeRight} />
+        </Stack.Navigator>
     )
 }
 

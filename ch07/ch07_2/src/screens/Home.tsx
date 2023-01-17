@@ -1,20 +1,20 @@
+import { useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Keyboard, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
-import { useToggleTheme } from '../contexts';
 import { ScrollEnabledProvider, useScrollEnabled } from '../contexts/ScrollEnabledContext';
 
 import * as D from '../data'
 import { SafeAreaView, TopBar, UnderlineText, View } from '../theme/navigation';
 import Person from './Person';
 
-export default function People() {
+export default function Home() {
+	const navigation = useNavigation()
+	const goLeft = useCallback(() => navigation.navigate('HomeLeft'), [])
+	const goRight = useCallback(() => navigation.navigate('HomeRight', {name: 'Jack', age: 32}), [])
+
 	const [scrollEnabled] = useScrollEnabled()
 	const [people, setPeople] = useState<D.IPerson[]>([])
 
-	const theme = useTheme()
-	const toggleTheme = useToggleTheme()
-	
 	const addPerson = useCallback(() => {
 		setPeople((people) => [D.createRandomPerson(), ...people])
 	}, [])
@@ -35,6 +35,14 @@ export default function People() {
 			<ScrollEnabledProvider>
 				<View style={[styles.view]}>
 					<TopBar>
+						<UnderlineText onPress={goLeft} style={styles.text}>
+							go Left
+						</UnderlineText>
+						<UnderlineText onPress={goRight} style={styles.text}>
+							go Right
+						</UnderlineText>
+					</TopBar>
+					<TopBar noSwitch>
 						<UnderlineText onPress={addPerson} style={[styles.text]}>
 							add
 						</UnderlineText>
