@@ -5,11 +5,10 @@ import Home from './Home'
 import HomeLeft from './HomeLeft'
 import HomeRight from './HomeRight'
 import { useNavigationHorizontalInterpolator } from '../hooks'
-import { MD2Colors } from 'react-native-paper'
 
 const Stack = createStackNavigator()
 
-export default function MainNavigator() {
+export default function HomeNavigator() {
     const interpolator = useNavigationHorizontalInterpolator()
     const leftOptions = useMemo<StackNavigationOptions>(() => ({
         gestureDirection: 'horizontal-inverted',
@@ -21,18 +20,7 @@ export default function MainNavigator() {
     }), [])
 
     return (        
-        <Stack.Navigator screenOptions={
-            {
-                headerShown: false,
-                headerStyle: {
-                    backgroundColor: MD2Colors.pink500
-                },
-                headerTintColor: 'white',
-                headerTitleStyle: {
-                    fontWeight: 'bold'
-                }
-            }
-            }>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="HomeLeft" component={HomeLeft} options={leftOptions} />
             <Stack.Screen name="HomeRight" component={HomeRight} options={rightOptions} />

@@ -31,12 +31,9 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
 }
 
 const Tab = createBottomTabNavigator()
-
-const MainNavigator = () => {
+const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
-      <Tab.Screen name='Login' component={Login} options={{tabBarLabel: 'Login'}} />
-      <Tab.Screen name='SignUp' component={SignUp} options={{tabBarLabel: 'SignUp'}} />
       <Tab.Screen name='HomeNavigator' component={HomeNavigator} 
         options={{tabBarLabel: 'Home', tabBarBadge: 3}} />
     </Tab.Navigator>
@@ -49,4 +46,4 @@ const styles = StyleSheet.create({
   content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
 });
 
-export default MainNavigator;
+export default TabNavigator;
