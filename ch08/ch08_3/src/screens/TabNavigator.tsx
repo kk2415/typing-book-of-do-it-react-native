@@ -1,18 +1,19 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import React from 'react';
-import HomeNavigator from './HomeNavigator';
 import type { RouteProp, ParamListBase } from '@react-navigation/native';
 import { MD2Colors } from 'react-native-paper';
-import Clock from './Clock';
-import Counter from './Counter';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fetch from './Fetch';
+import ThunkFetch from './ThunkFetch';
+import HomeNavigator from './HomeNavigator';
+
 
 type TabBarIconProps = {focused: boolean; color: string, size: number}
 
 const icons: Record<string, string[]> = {
   HomeNavigator: ['home-circle', 'home-circle-outline'],
-  Counter: ['eye-plus', 'eye-plus-outline'],
-  Clock: ['clock-alert', 'clock-alert-outline'],
+  Fetch: ['eye-plus', 'eye-plus-outline'],
+  ThunkFetch: ['clock-alert', 'clock-alert-outline'],
 }
 
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
@@ -35,8 +36,8 @@ const TabNavigator = () => {
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name='HomeNavigator' component={HomeNavigator} 
         options={{tabBarLabel: 'Home', tabBarBadge: 3}} />
-      <Tab.Screen name='Counter' component={Counter} />
-      <Tab.Screen name='Clock' component={Clock} />
+      <Tab.Screen name='Fetch' component={Fetch} />
+      <Tab.Screen name='ThunkFetch' component={ThunkFetch} />
     </Tab.Navigator>
   );
 };
